@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2017 Yordan P. Dieguez <ypdieguez@tuta.io>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources>
+    <string name="app_name">MaterialContactIconSample</string>
+    <string name="sample_name">Yordan P. Dieguez</string>
+    <string name="contact_photo_manager">ContactPhotoManager</string>
+    <string name="letter_tile_drawable">LetterTileDrawable</string>
+    <string name="material_quick_contact_badge">MaterialQuickContactBadge</string>
+    <string name="quick_contact_badge">QuickContactBadge</string>
+    <string name="image_view">ImageView</string>
+    <string name="circle">Circle</string>
+    <string name="square">Square</string>
+    <string name="show_me">SHOW ME</string>
+    <string name="choose_shape">Choose shape:</string>
+    <string name="choose_view">Choose view:</string>
+    <string name="choose_method">Choose method:</string>
+    <string name="to_create_the_contact_icons">To create the contact icons&#8230;</string>
+    <string name="add_contacts">Add Contacts</string>
+</resources>

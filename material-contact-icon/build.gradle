@@ -1,0 +1,155 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.google.guava:guava:22.0-android'
+}
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'material-contact-icon'
+
+    publishedGroupId = 'io.github.ypdieguez'
+    libraryName = 'MaterialContactIcon'
+    artifact = 'material-contact-icon'
+
+    libraryDescription = 'Library that allows the creation of material contact icons.'
+
+    siteUrl = 'https://github.com/ypdieguez/MaterialContactIcon'
+    gitUrl = 'https://github.com/ypdieguez/MaterialContactIcon.git'
+    issuesUrl = 'https://github.com/ypdieguez/MaterialContactIcon/issues'
+    githubRepository = 'ypdieguez/MaterialContactIcon'
+    githubReadme = 'README.md'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'ypdieguez'
+    developerName = 'Yordan P. Dieguez'
+    developerEmail = 'ypdieguez@tuta.io'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+// Install
+group = publishedGroupId    // Maven Group ID for the artifact
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom.project {
+            group = 'publishing'
+
+            packaging 'aar'
+            groupId publishedGroupId
+            artifactId artifact
+            version libraryVersion
+
+            name libraryName
+            description libraryDescription
+            url siteUrl
+            inceptionYear '2017'
+
+            licenses {
+                license {
+                    name licenseName
+                    url licenseUrl
+                    distribution 'repo'
+                }
+            }
+            developers {
+                developer {
+                    id developerId
+                    name developerName
+                    email developerEmail
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+            }
+        }
+    }
+}
+
+// Bintray
+version = libraryVersion
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    publish = true
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        issueTrackerUrl = issuesUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        labels = ['android', 'material-design', 'contacts', 'icons']
+        publicDownloadNumbers = true
+        githubRepo = githubRepository
+        githubReleaseNotesFile = githubReadme
+        version {
+            name = libraryVersion
+            desc = libraryDescription
+            released = new Date()
+            vcsTag = libraryVersion
+            gpg {
+                sign = true
+                passphrase = properties.getProperty("bintray.gpg.password")
+            }
+        }
+    }
+}
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
